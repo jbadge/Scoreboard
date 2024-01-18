@@ -48,6 +48,7 @@ function render() {
 // Changing Score
 let teamOneScore = document.querySelector('.team1 h3')
 let teamTwoScore = document.querySelector('.team2 h3')
+let whoWon = document.querySelector('h1')
 
 // Click event for adding point to score
 function handleClickButton(event: MouseEvent) {
@@ -56,15 +57,20 @@ function handleClickButton(event: MouseEvent) {
   if (thingClickedOn instanceof HTMLElement) {
     // ADD
     if (thingClickedOn.classList.contains('add')) {
-      if (thingClickedOn.classList.contains('teamOne')) {
+      if (
+        thingClickedOn.classList.contains('teamOne') &&
+        teamOneScore?.textContent !== '21'
+      ) {
         if (teamOneScore?.textContent) {
           teamOneScore.textContent = String(
             Number(teamOneScore.textContent) + 1
           )
         }
       }
-
-      if (thingClickedOn.classList.contains('teamTwo')) {
+      if (
+        thingClickedOn.classList.contains('teamTwo') &&
+        teamTwoScore?.textContent !== '21'
+      ) {
         if (teamTwoScore?.textContent) {
           teamTwoScore.textContent = String(
             Number(teamTwoScore.textContent) + 1
@@ -97,6 +103,27 @@ function handleClickButton(event: MouseEvent) {
       }
     }
   }
+  if (teamOneScore?.textContent === '21') {
+    if (whoWon instanceof HTMLHeadingElement) { 
+      whoWon.textContent = `Congratulations ${teamOneName}!`
+      return
+  } 
+}
+  if (teamTwoScore?.textContent === '21') {
+    if (whoWon instanceof HTMLHeadingElement) { 
+    whoWon.textContent = `Congratulations ${teamTwoName}!`
+  }
+}
+}
+
+
+function reset() {
+  if (teamOneScore instanceof HTMLHeadingElement) {
+    teamOneScore.textContent = '0'
+  } 
+  if (teamTwoScore instanceof HTMLHeadingElement) {
+    teamTwoScore.textContent = '0'
+  }
 }
 
 if (teamOneInputElement) {
@@ -111,3 +138,5 @@ const scoreBoard = document.querySelector('main')
 if (scoreBoard instanceof HTMLElement) {
   scoreBoard.addEventListener('click', handleClickButton)
 }
+
+document.getElementById('reset-button')?.addEventListener('click', reset)
